@@ -1,0 +1,77 @@
+import java.util.HashMap;
+import java.util.Iterator;
+
+import javax.swing.JOptionPane;
+
+public class Mascota {
+	HashMap<Integer, Mascota> datos = new HashMap<Integer, Mascota>();
+	Procesos misP = new Procesos();
+    // Atributos
+	int codigo;
+    String nombre;
+    String especie;
+    int edad;
+
+    //Constructor sin parametros
+    public Mascota() {
+    	  nombre = "Firu";
+          especie = "Default";
+          edad = 0;
+    }
+    
+    public void ingresarDatos(int i) {
+    	codigo = Integer.parseInt(JOptionPane.showInputDialog("Ingrese codigo de la mascota " + i));
+    	nombre = JOptionPane.showInputDialog("Ingrese nombre");
+        especie = JOptionPane.showInputDialog("Ingrese especie");;
+        edad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese edad de: " + nombre));
+    }
+
+    
+    // Constructor con parametros
+    public Mascota(String nombre, String especie, int edad) {
+        this.nombre = nombre;
+        this.especie = especie;
+        this.edad = edad;
+    }
+    
+    
+    // Método para mostrar información de la mascota
+    public void mostrarInformacion() {
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Especie: " + especie);
+        System.out.println("Edad: " + edad + " años");
+    }
+
+    // Método para hacer que la mascota realice un sonido
+    public void hacerSonido() {
+        if (especie.equalsIgnoreCase("perro")) {
+            System.out.println("¡Guau guau!");
+        } else if (especie.equalsIgnoreCase("gato")) {
+            System.out.println("¡Miau miau!");
+        } else {
+            System.out.println("La mascota no hace sonidos conocidos.");
+        }
+    }
+    
+    //metodo para guardas los datos ingresados de procesos en datos de la calse mascota 
+    public void guardarDatos() {
+    	
+	}
+    
+    //metodo para sacar a la mascota a caminar
+    public void caminar() {
+        int llave = Integer.parseInt(JOptionPane.showInputDialog("Ingrese id de una mascota para salir a caminar"));
+        HashMap<Integer, Mascota> datos = misP.elHasMap();
+        System.out.println(misP.datos);
+        Iterator<Integer> iter = datos.keySet().iterator();
+        while (iter.hasNext()) {
+            Integer clave = iter.next();
+            if (clave == llave) {
+                System.out.println("ID: " + clave);
+                System.out.println("Nombre: " + datos.get(llave).nombre);
+                System.out.println("Sale a caminar");
+            }
+        }
+    }
+}
+

@@ -1,0 +1,194 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import javax.swing.JOptionPane;
+
+public class Procesos {
+	ArrayList<String> datos = new ArrayList<>();
+	HashMap<String, ArrayList<String>> datosG = new HashMap<>();
+	public void inicio(){
+		int opcion = 0;
+		String menu = "";
+		menu += "Ingrese opción correcta:\n";
+		menu += "1. Ingresar Estudiantes y sus notas\n";
+		menu += "2. Consultas\n";
+		menu += "3. Busqueda individual\n";
+		menu += "4. Salir";
+		do {
+			opcion = Integer.parseInt(JOptionPane.showInputDialog(menu));
+			menu(opcion);
+		}while(opcion != 4);
+	}
+	
+	public void menu(int opcion) {
+		switch (opcion) {
+		case 1:
+			ingresarDatos();
+			break;
+		case 2: 
+			if(datosG.size() != 0) {
+				opcionConsulta();
+			}System.out.println("Debe llenar los datos");
+			break;
+		case 3:
+			if(datosG.size() != 0) {
+				consultaIndividual();
+			}System.out.println("Debe llenar los datos");
+			break;
+		case 4:
+			System.out.println("ADIOS");
+			break;
+		default:
+			JOptionPane.showMessageDialog(null, "Ingrese opcion valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+			break;
+		}
+	}
+
+	private void consultaIndividual() {
+		String llave = JOptionPane.showInputDialog("Ingrese documento a consultar");
+		if(datosG.containsKey(llave)) {
+			double promedio = Double.parseDouble(datosG.get(llave).get(2)) + Double.parseDouble(datosG.get(llave).get(3))
+					+ Double.parseDouble(datosG.get(llave).get(4)) / 3;
+				System.out.println("Id: " + datosG.get(llave).get(0) + " Nombre: " + datosG.get(llave).get(1) +
+						" Notas: " + datosG.get(llave).get(2) + ", " + datosG.get(llave).get(3) + " Y " +
+						datosG.get(llave).get(4) + " promedio: " + promedio);
+		}else System.out.println(llave + " No fue registrado");
+	}
+
+	public void ingresarDatos() {
+		double y = 0; 
+		int x = 0;
+		int i = datosG.size(); 
+		do{
+			datos = new ArrayList<>();
+			datos.add(JOptionPane.showInputDialog("Ingrese el documento " + (i+1)));
+			datos.add(JOptionPane.showInputDialog("Ingrese nombre de el estudiante: " + (i+1)));
+			for(int j = 0;  j < 3; j++) {
+				y = validarNotas("Ingrese nota " + (j+1) + " del estudiante " + datos.get(1));
+				datos.add(y + "");
+			}
+			x = validarOpcion("Ingrese una opcion: \n1. Continuar con un Estudiante\n2. Salir");
+			i++;
+			datosG.put(datos.get(0), datos);
+		}while(x == 1) ;
+		System.out.println(datosG);
+	}
+	
+	public void consultas(int opcion) {
+		double promedio = 0, promedioF = 0, promediot, sumatoria = 0;
+		int cont = 0, ganan = 0, pierden = 0, recuperar = 0, noRecuperar = 0;
+		String promediosEs = "";
+		Iterator<String> iterator = datosG.keySet().iterator();
+		while(iterator.hasNext()) {
+			String llave = iterator.next();
+			for(int j = 2; j < datosG.get(llave).size(); j++) {
+				cont+= Double.parseDouble(datosG.get(llave).get(j));
+				sumatoria += Double.parseDouble(datosG.get(llave).get(j));
+			}
+			promedio = cont / 3;
+			if(promedio >= 3.5) {
+				ganan += 1;
+			}else pierden += 1;
+			if(promedio >= 2.0 && promedio < 3.5) {
+				recuperar += 1;
+			}else if(promedio < 2.0) {
+				noRecuperar += 1;
+			}
+			promedioF += promedio;
+			promediosEs += "\n"+ datosG.get(llave).get(1) + " promedio: " + promedio;
+			cont = 0;
+		}
+		promediot = promedioF / datosG.size();
+		opcionConsulta(ganan, pierden, recuperar, noRecuperar, promediot, promediosEs, opcion, sumatoria);
+	}
+	
+	public void opcionConsulta() {
+		int opcion = 0;
+		String menu = "";
+		menu += "Ingrese opción correcta:\n";
+		menu += "1. Cantidad total de estudiantes validados\n";
+		menu += "2. Cantidad total de notas ingresadas\n";
+		menu += "3. Sumatoria total de nottas Ingresadas\n";
+		menu += "4. Promedio de las notas finales obtenidas\n";
+		menu += "5. Estudiates que ganan la materia\n";
+		menu += "6. Estudiantes que pierden la materia\n";
+		menu += "7. Cantidad de estudiantes que pueden recuperar\n";
+		menu += "8. Cantidad de estudiantes que pierden sin recuperacion\n";
+		menu += "9. Listado de los estudiantes y sus notas finales\n";
+		menu += "10. Salir";
+		do {
+			opcion = Integer.parseInt(JOptionPane.showInputDialog(menu));
+			consultas(opcion);
+		}while(opcion != 10);
+	}
+	
+	private void opcionConsulta(int ganan, int  pierden,int recuperar, int noRecuperar, double promediot, String promediosEs, int opcion, double cont) {
+		switch (opcion) {
+		case 1:
+			System.out.println("Cantidad total de estudiantes validados: " + datosG.size());
+			System.out.println("---");
+			break;
+		case 2:
+			System.out.println("Cantidad total de notas ingresadas: " + datosG.size()*3);
+			System.out.println("---");
+			break;
+		case 3:
+			System.out.println("Sumatoria total de nottas Ingresadas: " + cont);
+			System.out.println("---");
+			break;
+		case 4: 
+			System.out.println("Promedio de las notas finales obtenidad: " +  promediot);
+			System.out.println("---");
+			break;
+		case 5: 
+			System.out.println("Cantidad de estudantes que ganan la materia: " + ganan);
+			System.out.println("---");
+			break;
+		case 6:
+			System.out.println("Cantidad de estudantes que pierden la materia: " + pierden);
+			System.out.println("---");
+			break;
+		case 7:
+			System.out.println("Cantidad de estudiantes que pueden recuperar: " + recuperar);
+			System.out.println("---");
+			break;
+		case 8:
+			System.out.println("Cantidad de estudiantes que pierden sin recuperacion: " + noRecuperar);
+			System.out.println("---");
+			break;
+		case 9:
+			System.out.println("Listado de los estudiantes y sus notas finales" + promediosEs);
+			System.out.println("---");
+			break;
+		case 10:
+			break;
+		default:
+			JOptionPane.showMessageDialog(null, "Ingrese opcion valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+			break;
+		}	
+	}
+	
+	public int validarOpcion(String msj) {
+		int x =  1;
+		do {
+			x = Integer.parseInt(JOptionPane.showInputDialog(msj));
+			if(x < 1 || x > 3) {
+				JOptionPane.showMessageDialog(null, "Ingrese opcion valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+		}while(x < 1 || x > 3);
+		return x;
+	}
+	
+	public double validarNotas(String msj) {
+		double x =0;
+		do {
+			x = Double.parseDouble(JOptionPane.showInputDialog(msj));
+			if(x < 0 || x >5) {
+				JOptionPane.showMessageDialog(null, "INGRESE NOTA VALIDA", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+		}while(x < 0 || x >5);
+		return x; 
+	}
+
+}

@@ -1,0 +1,11 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Procesos {
+	ArrayList<String> datos = new ArrayList<>();
+	HashMap<Integer, ArrayList<String>> datosG = new HashMap<>();
+	public void inicio(){
+		String menu = "";
+		
+	}
+}

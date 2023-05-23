@@ -1,0 +1,11 @@
+INDEX VERSION 1.132+C:\Users\lopez\OneDrive\SENA\Cuarto trimestre\Java\Talleres\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+2253592949.index
+684295317.index
+994384362.index
+3304679300.index
+3413725848.index
+2958196533.index
+1903850190.index
+3133782035.index
+1050785781.index

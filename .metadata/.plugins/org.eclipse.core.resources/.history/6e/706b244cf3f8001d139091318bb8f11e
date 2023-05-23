@@ -1,0 +1,83 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.JOptionPane;
+
+public class Procesos {
+	ArrayList<String> datos = new ArrayList<>();
+	HashMap<String, ArrayList<String>> datosG = new HashMap<>();
+	public void inicio(){
+		int opcion = 0;
+		String menu = "";
+		menu += "Ingrese opción correcta:\n";
+		menu += "1. Ingresar Estudiantes y sus notas\n";
+		menu += "2. Consultas\n";
+		menu += "3. Salir";
+		do {
+			opcion = Integer.parseInt(JOptionPane.showInputDialog(menu));
+			menu(opcion);
+		}while(opcion != 3);
+	}
+	
+	public void menu(int opcion) {
+		switch (opcion) {
+		case 1:
+			ingresarDatos();
+			break;
+		case 2: 
+			opcionConsulta();
+			break;
+		case 3:
+			System.out.println("ADIOS");
+			break;
+		default:
+			JOptionPane.showMessageDialog(null, "Ingrese opcion valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+			break;
+		}
+	}
+
+	public void ingresarDatos() {
+		double y = 0; 
+		int x = 0;
+		int i = datosG.size(); 
+		do{
+			datos.add(JOptionPane.showInputDialog("Ingrese el documento " + (i+1)));
+			datos.add(JOptionPane.showInputDialog("Ingrese nombre de el estudiante: " + (i+1)));
+			for(int j = 0;  j < 3; j++) {
+				y = validarNotas("Ingrese nota " + (j+1) + " del estudiante " + datos.get(1));
+				datos.add(y + "");
+			}
+			x = validarOpcion("Ingrese una opcion: \n1. Continuar con un Estudiante\n2. Salir");
+			i++;
+			datosG.put(datos.get(0), datos);
+		}while(x == 1) ;
+	}
+	
+	private void opcionConsulta() {
+		
+		
+	}
+	
+	public int validarOpcion(String msj) {
+		int x =  1;
+		do {
+			x = Integer.parseInt(JOptionPane.showInputDialog(msj));
+			if(x < 1 || x > 3) {
+				JOptionPane.showMessageDialog(null, "Ingrese opcion valida", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+		}while(x < 1 || x > 3);
+		return x;
+	}
+	
+	public double validarNotas(String msj) {
+		double x =0;
+		do {
+			x = Double.parseDouble(JOptionPane.showInputDialog(msj));
+			if(x < 0 || x >5) {
+				JOptionPane.showMessageDialog(null, "INGRESE NOTA VALIDA", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+		}while(x < 0 || x >5);
+		return x; 
+	}
+
+}

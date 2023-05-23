@@ -1,0 +1,257 @@
+
+import javax.swing.JOptionPane;
+
+public class Proceso{
+	String nombres[];
+	int edad[];
+	public void iniciar() {
+		System.out.println("Iniciar");
+		String menu="GESTION ESTUDIANTES\n";
+		menu+="1. Llenar Datos\n";
+		menu+="2. Imprimir Datos\n";
+		menu+="3. Busquedas\n";
+		menu+="4. Salir\n";
+		menu+="Ingrese una opci贸n:\n";
+
+		int opc=0;
+		do {
+			opc=Integer.parseInt(JOptionPane.showInputDialog(menu));
+			
+			validarMenu(opc);
+			
+		} while (opc!=4);
+		
+		
+	}
+	
+	public void validarMenu(int opc) {
+			
+			switch (opc) {
+			case 1:
+				if(nombres != null) {
+					JOptionPane.showMessageDialog(null, "Usted ya ingreso datos", "Error", JOptionPane.ERROR_MESSAGE);
+				}else llenarDatos();
+				System.out.println("-------------------");
+				 	break;
+			case 2:
+				if (validarArreglo()) {
+					imprimirDatos();	
+				}
+				System.out.println("-------------------");
+			 		break;
+			case 3:
+				if (validarArreglo()) {
+					busquedas();	
+				}
+				System.out.println("-------------------");
+			 		break;
+			case 4:
+				System.out.println("Chao!");
+			 		break;
+			default:System.out.println("Ingrese una opci贸n valida");
+					break;
+			}
+	}
+	
+	public boolean validarArreglo() {
+		if (nombres!=null) {
+			return true;
+		}else {
+			System.out.println("Debe primero llenar datos");
+			return false;
+		}
+	}
+	
+	public void llenarDatos() {
+		System.out.println("llenar datos");
+		int tam=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de estudiantes"));
+		nombres=new String[tam];
+		edad = new int[tam];
+		for (int i = 0; i < nombres.length; i++) {
+			nombres[i]=JOptionPane.showInputDialog("Ingrese el nombre "+(i+1));//"Nombre"+(i+1);
+			edad[i] = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la edad de " + nombres[i]));
+		}
+		
+	}
+	
+	public void imprimirDatos() {
+		System.out.println("ImprimirDatos, nombres="+nombres);
+		for (int i = 0; i < nombres.length; i++) {
+			if(i < nombres.length - 1) {
+				System.out.println(nombres[i]+" edad: " + edad[i] + ",");
+			}else System.out.println(nombres[i]+" edad: " + edad[i]);
+		}
+	}
+	
+	public void mayorEdad() {
+		System.out.println("Buscar mayor edad");
+		String nombre = "";
+		int mayor = 0;
+		for (int i = 0; i < edad.length; i++) {
+			if(mayor <= edad[i]) {
+				mayor = edad[i];
+			}
+			if(i == edad.length - 1) {
+				for(int i1 = 0; i1 < edad.length; i1++) {
+					if(edad[i1] == mayor) {
+						nombre += nombres[i1] + "\n";
+					}
+				}
+			}
+			
+		}
+		System.out.println("Los estudiantes con mayor edad son:\n" + nombre + "con la edad de: " + mayor + " años");
+	}
+	
+	public void menorEdad() {
+		System.out.println("Buscar menor edad");
+		String nombre = "";
+		int i = 0;
+		int menor = edad[i];
+		for (i = 0; i < edad.length; i++) {
+			if(edad[i] <= menor) {
+				menor = edad[i];
+			}
+			if(i == edad.length - 1) {
+				for(int i1 = 0; i1 < edad.length; i1++) {
+					if(edad[i1] == menor) {
+						nombre += "\n"+ nombres[i1];
+					}
+				}
+			}
+			
+		}
+		System.out.println("Los estudiantes con menor edad son: " + nombre + "\ncon la edad de: " + menor + " años");
+	}
+	
+	public void buscarPorNombre() {
+		System.out.println("buscarNombre, nombres="+nombres);
+		int cont=0;
+		String nombreBuscar=JOptionPane.showInputDialog("Ingrese el nombre a buscar");
+		for (int i = 0; i < nombres.length; i++) {
+			if (nombres[i].equalsIgnoreCase(nombreBuscar)) {
+				cont++;
+			}
+		}
+		
+		if (cont>0) {
+			System.out.println("Encontre a "+nombreBuscar+" "+cont+" veces");
+		}else {
+			System.out.println("la persona "+nombreBuscar+" no fue registrada");
+		}
+	}
+	
+	public void promedio() {
+		int acu=0;
+		for (int i = 0; i < nombres.length; i++) {
+			acu += edad[i];
+		}
+		double promedio = acu/(edad.length);
+		System.out.println(edad.length);
+		System.out.println("El promedio de edades es: " + promedio);
+	}
+	
+	public void buscarPorEdad() {
+		System.out.println("buscar por edad");
+		int cont=0;
+		String nombre = "";
+		int edadBuscar=Integer.parseInt(JOptionPane.showInputDialog("Ingrese la edadd"));
+		for (int i = 0; i < edad.length; i++) {
+			if (edad[i] == edadBuscar) {
+				cont++;
+				nombre += nombres[i] + " edad: "+ edad[i] + "\n";
+			}
+		}
+		
+		if (cont>0) {
+			System.out.println("Encontre a "+edadBuscar+" "+cont+" veces\n" + nombre);
+		}else {
+			System.out.println("la persona "+edadBuscar+" no fue registrada");
+		}
+	}
+	
+	public void mayordeEdad() {
+		int cont = 0;
+		String nombre = "";
+		for (int i = 0; i < edad.length; i++) {
+			if (edad[i] >= 18) {
+				cont++;
+				nombre += "\n" + nombres[i] + " edad: " + edad[i];
+			}
+		}
+		System.out.println("Estudiantes mayores de edad: " + cont + " son: "+nombre);
+	}
+	
+	public void busquedas() {
+		String menu = "BUSQUEDA DE DATOS\n";
+		menu+="1. Buscar por nombre\n";
+		menu+="2. Buscar estudiante(s) que tenga(n) la mayor(ía) de edad \n";
+		menu+="3. Buscar promedio de las edades\n";
+		menu+="4. Buscar estudiante(s) que tenga(n) la menor de edad \n";
+		menu+="5. Buscar estudiantes mayores de edad\n";
+		menu+="6. Buscar por la edad\n";
+		menu +="7. Atras";
+		
+		int opc=0;
+		do {
+			opc=Integer.parseInt(JOptionPane.showInputDialog(menu));
+			
+			validarMenuBus(opc);
+			
+		} while (opc!=7);
+		
+	}
+	
+	public void validarMenuBus(int opc) {
+		switch(opc) {
+		case 1:
+			if (nombres!=null) {
+				buscarPorNombre();
+			}else {
+				System.out.println("Debe primero llenar datos");
+			}
+			System.out.println("-------------------");
+		 		break;
+		case 2:
+			if (nombres!=null) {
+				mayorEdad();
+			}else {
+				System.out.println("Debe primero llenar datos");
+			}
+			System.out.println("-------------------");
+				break;
+		case 3:
+			if (nombres!=null) {
+				promedio();
+			}else {
+				System.out.println("Debe primero llenar datos");
+			}
+			System.out.println("-------------------");
+				break;
+		case 4:
+			if (nombres!=null) {
+				menorEdad();
+			}else {
+				System.out.println("Debe primero llenar datos");
+			}
+			System.out.println("-------------------");
+				break;
+		case 5: 
+			if (nombres!=null) {
+				mayordeEdad();;
+			}else {
+				System.out.println("Debe primero llenar datos");
+			}
+			System.out.println("-------------------");
+				break;
+		case 6: 
+			if (nombres!=null) {
+				buscarPorEdad();
+			}else {
+				System.out.println("Debe primero llenar datos");
+			}
+			System.out.println("-------------------");
+				break;
+		}
+	}
+}

@@ -1,0 +1,50 @@
+import java.util.HashMap;
+
+import javax.swing.JOptionPane;
+
+public class Procesos {
+    HashMap<Integer, Mascota> datos = new HashMap<Integer, Mascota>();
+
+    public void guardarDatos() {
+        Mascota miMascota = null;
+        int cantidad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de mascotas"));
+        for (int i = 0; i < cantidad; i++) {
+            miMascota = new Mascota();
+            miMascota.ingresarDatos(i + 1);
+            miMascota.hacerSonido();
+            datos.put(miMascota.codigo, miMascota);
+        }
+        consultarMascotas();
+        caminarMascotas();
+    }
+
+    public void consultarMascotas() {
+        int llave = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el ID de la mascota a consultar:"));
+        Mascota mascota = datos.get(llave);
+        if (mascota != null) {
+            System.out.println("ID: " + llave);
+            System.out.println("Nombre: " + mascota.nombre);
+            System.out.println("Especie: " + mascota.especie);
+            System.out.println("Edad: " + mascota.edad);
+        } else {
+            System.out.println("No se encontró una mascota con el ID especificado.");
+        }
+    }
+
+    public void caminarMascotas() {
+        int llave = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el ID de una mascota para salir a caminar:"));
+        Mascota mascota = datos.get(llave);
+        if (mascota != null) {
+            System.out.println("ID: " + llave);
+            System.out.println("Nombre: " + mascota.nombre);
+            System.out.println("Sale a caminar");
+        } else {
+            System.out.println("No se encontró una mascota con el ID especificado.");
+        }
+    }
+
+    public HashMap<Integer, Mascota> getDatos() {
+        return datos;
+    }
+
+}

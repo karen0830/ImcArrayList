@@ -1,0 +1,50 @@
+import java.util.HashMap;
+import java.util.Iterator;
+
+import javax.swing.JOptionPane;
+/*
+ * 1. Creen n cantidad de mascotas
+ * 2. Almacenen esas mascotas en una estructura de datos
+ * 3. Consulten mascotas individuales
+ * 4. Consulten la lista de mascotas.
+ * 
+ * Deben diligenciar todos los atributos.
+ * Creen por lo menos 2 metodos nuevos en la clase Mascota
+ */
+
+public class Procesos {
+	HashMap<Integer, Mascota> datos = new HashMap<Integer, Mascota>();
+	public void guardarDatos() {
+		Mascota miMascota = null;
+	    int cantidad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de mascotas"));
+	   for(int i = 0; i < cantidad; i++) {
+		   miMascota = new Mascota();
+		   miMascota.ingresarDatos(i+1);
+		   miMascota.hacerSonido();
+		   datos.put(miMascota.codigo, miMascota);
+	   }
+	   consultarMascotas();
+	   miMascota.caminar();
+	   elHasMap();
+	}
+	
+	public void consultarMascotas() {
+		String dato = "";
+		int llave = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el ID de la mascota a consultar:"));
+		Iterator<Integer> iter = datos.keySet().iterator();
+		while(iter.hasNext()) {
+			Integer clave = iter.next();
+			if(clave == llave) {
+				dato += "ID: "+ clave + "\n";
+				dato += "Nombre: "+ datos.get(llave).nombre + "\n";
+				dato += "Especie: "+ datos.get(llave).especie + "\n";
+				dato += "Edad: "+ datos.get(llave).edad + "\n";
+				System.out.println(dato);
+			}
+		}
+	}
+	
+	public HashMap<Integer, Mascota> elHasMap() {
+		return datos;
+	}
+}
